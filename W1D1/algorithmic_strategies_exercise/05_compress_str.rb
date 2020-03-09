@@ -4,17 +4,34 @@
 
 def compress_str(str)
     new_str = ""
-    count = 0
+    
+    count = 1
 
-    str.split.inject do |acc, el|
-        if el == acc
+    i = 0
+    while i < str.length 
+        current_char = str[i]
+        next_char = str[i+1]
+
+        if current_char == next_char
             count += 1
-        else
-            new_str += count.to_s + el.to_s
+        elsif count > 1 && current_char != next_char
+            new_str += (count).to_s
+            new_str += current_char
+            count = 1
+        elsif count == 1 && current_char != next_char
+            new_str += current_char
+        elsif count > 1 && next_char == nil
+            new_str += (count).to_s
+            new_str += current_char
+        elsif count == 1 && next_char == nil
+            new_str += current_char
         end
+
+        i += 1
     end
 
     new_str
+
 end
 
 

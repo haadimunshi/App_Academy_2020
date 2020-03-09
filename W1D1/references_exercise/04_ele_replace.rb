@@ -8,6 +8,17 @@
 
 def ele_replace!(array, hash)
 
+    hash.each do |k, v|
+        array.map! do |ele|
+            if ele == k
+                ele = v
+            else
+                ele
+            end
+        end
+    end
+
+    array
 end
 
 
