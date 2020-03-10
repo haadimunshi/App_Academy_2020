@@ -1,0 +1,3 @@
+def hipsterfy(word)
+
+end
