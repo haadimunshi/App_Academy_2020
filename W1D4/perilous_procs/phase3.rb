@@ -1,3 +1,5 @@
+require 'byebug'
+
 def selected_map!(arr, prc1, prc2)
     arr.map! { |ele| prc1.call(ele) ? prc2.call(ele) : ele }
     return nil
@@ -141,5 +143,128 @@ end
 # # {1=>["WHO", "what", "when!", "WHERE!", "WHY"], 2=>[], 3=>[], 4=>[]}
 
 def procipher(sent, hash)
-    
+    new_sent = []
+    new_word = ""
+
+    sent.split.each do |word|
+        hash.each do |k, v|
+            if k.call(word) && new_word == ""
+                new_word = v.call(word)
+                next
+            elsif k.call(word) && new_word != ""
+                new_word = v.call(new_word)
+                next
+            else
+                next
+            end
+        end
+
+        if new_word == ""
+            new_sent << word
+        else
+            new_sent << new_word
+            new_word = ""
+        end
+
+    end
+
+    new_sent.join(" ")
+
 end
+# This one required a lot of byebug.
+
+# is_yelled = Proc.new { |s| s[-1] == '!' }
+# is_upcase = Proc.new { |s| s.upcase == s }
+# contains_a = Proc.new { |s| s.downcase.include?('a') }
+# make_question = Proc.new { |s| s + '???' }
+# reverse = Proc.new { |s| s.reverse }
+# add_smile = Proc.new { |s| s + ':)' }
+
+# p procipher('he said what!',
+#     is_yelled => make_question,
+#     contains_a => reverse
+# ) # "he dias ???!tahw"
+
+# p procipher('he said what!',
+#     contains_a => reverse,
+#     is_yelled => make_question
+# ) # "he dias !tahw???"
+
+# p procipher('he said what!',
+#     contains_a => reverse,
+#     is_yelled => add_smile
+# ) # "he dias !tahw:)"
+
+# p procipher('stop that taxi now',
+#     is_upcase => add_smile,
+#     is_yelled => reverse,
+#     contains_a => make_question
+# ) # "stop that??? taxi??? now"
+
+# p procipher('STOP that taxi now!',
+#     is_upcase => add_smile,
+#     is_yelled => reverse,
+#     contains_a => make_question
+# ) # "STOP:) that??? taxi??? !won"
+
+def picky_procipher(sent, hash)
+    new_sent = []
+    new_word = ""
+
+    sent.split.each do |word|
+        hash.each do |k, v|
+            if k.call(word) && new_word == ""
+                new_word = v.call(word)
+                break
+            else
+                next
+            end
+        end
+
+        if new_word == ""
+            new_sent << word
+        else
+            new_sent << new_word
+            new_word = ""
+        end
+
+    end
+
+    new_sent.join(" ")
+
+end
+# This one was very easy, just required a slight modification to procipher.
+
+# is_yelled = Proc.new { |s| s[-1] == '!' }
+# is_upcase = Proc.new { |s| s.upcase == s }
+# contains_a = Proc.new { |s| s.downcase.include?('a') }
+# make_question = Proc.new { |s| s + '???' }
+# reverse = Proc.new { |s| s.reverse }
+# add_smile = Proc.new { |s| s + ':)' }
+
+# p picky_procipher('he said what!',
+#     is_yelled => make_question,
+#     contains_a => reverse
+# ) # "he dias what!???"
+
+# p picky_procipher('he said what!',
+#     contains_a => reverse,
+#     is_yelled => make_question
+# ) # "he dias !tahw"
+
+# p picky_procipher('he said what!',
+#     contains_a => reverse,
+#     is_yelled => add_smile
+# ) # "he dias !tahw"
+
+# p picky_procipher('stop that taxi now',
+#     is_upcase => add_smile,
+#     is_yelled => reverse,
+#     contains_a => make_question
+# ) # "stop that??? taxi??? now"
+
+# p picky_procipher('STOP that taxi!',
+#     is_upcase => add_smile,
+#     is_yelled => reverse,
+#     contains_a => make_question
+# ) # "STOP:) that??? !ixat"
