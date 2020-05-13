@@ -161,6 +161,6 @@ def uncompress(str)
     new_str
 end
 
-p uncompress('a2b4c1') # 'aabbbbc'
-p uncompress('b1o2t1') # 'boot'
-p uncompress('x3y1x2z4') # 'xxxyxxzzzz'
+# p uncompress('a2b4c1') # 'aabbbbc'
+# p uncompress('b1o2t1') # 'boot'
+# p uncompress('x3y1x2z4') # 'xxxyxxzzzz'
