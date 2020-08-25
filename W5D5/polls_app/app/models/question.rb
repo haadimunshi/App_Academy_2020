@@ -1,4 +1,5 @@
 class Question < ApplicationRecord
+    validates :text, presence: true
 
     belongs_to :poll,
         primary_key: :id,
